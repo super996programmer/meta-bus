@@ -1,0 +1,13 @@
+{
+  "extends": ["stylelint-config-recommended", "stylelint-config-prettier"],
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "customSyntax": "@stylelint/postcss-css-in-js",
+      "rules": {
+        "value-no-vendor-prefix": true,
+        "property-no-vendor-prefix": true
+      }
+    }
+  ]
+}
