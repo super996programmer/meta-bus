@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   height: 100vh;
   color: #535353;
@@ -14,6 +15,7 @@ const Container = styled.div`
 const Main: FC = () => (
   <Container>
     <span>Hello World! This is MetaBus!</span>
+    <p>To the Moon ~</p>
   </Container>
 );
 
