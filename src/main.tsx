@@ -15,7 +15,7 @@ const Container = styled.div`
 const Main: FC = () => (
   <Container>
     <span>Hello World! This is MetaBus!</span>
-    <p>To the Moon ~</p>
+    <p>~ To the Moon ~</p>
   </Container>
 );
 
