@@ -1,3 +1,4 @@
 node_modules/
 bundle/
+storybook-static/
 *.stories.tsx

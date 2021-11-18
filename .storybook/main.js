@@ -1,5 +1,6 @@
-const path = require("path");
 const custom = require('../webpack.config.js');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const { ProvidePlugin } = require('webpack');
 
 module.exports = {
   "stories": [
@@ -14,8 +15,20 @@ module.exports = {
     "builder": "webpack5"
   },
   webpackFinal: async (config) => {
-    config.resolve.alias['@src'] = path.resolve(__dirname, '../src')
+    config.resolve.plugins = [
+      ...(config.resolve.plugins || []),
+      new TsconfigPathsPlugin({
+        extensions: ['.tsx', '.ts', '.js', '.json'],
+      }),
+    ];
 
-    return config;
+    config.plugins = [
+      ...(config.plugins || []),
+      new ProvidePlugin({
+        React: 'react',
+      }),
+    ]
+
+    return { ...config, module: { ...config.module, rules: custom.module.rules } };
   },
 }
