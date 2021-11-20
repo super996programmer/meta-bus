@@ -1,17 +1,17 @@
 import buildQuery, { QueryOptions } from 'odata-query';
 import { TDX_BUS_API } from './constants';
 import fetchTdxApi from './fetchTdxApi';
-import { BusRoute, CityType } from './model';
+import { BusN1EstimateTime, CityType } from './model';
 
-export interface BusRouteRequest {
+export interface EstimatedTimeOfArrivalRequest {
   city?: CityType;
   routeName?: string;
-  queryOptions?: Partial<QueryOptions<BusRoute>>;
+  queryOptions?: Partial<QueryOptions<BusN1EstimateTime>>;
 }
 
-// 取得市區公車路線資料
-export const fetchBusRoute = (
-  params: BusRouteRequest = {
+// 取得市區公車預估到站資料(N1)
+export const fetchEstimatedTimeOfArrival = (
+  params: EstimatedTimeOfArrivalRequest = {
     city: 'Taipei',
     queryOptions: {
       top: 30,
@@ -24,9 +24,9 @@ export const fetchBusRoute = (
     queryOptions = { top: routeName ? undefined : 30 },
   } = params;
   const query = buildQuery(queryOptions);
-  const url = `${TDX_BUS_API}/Route/City/${city}${
+  const url = `${TDX_BUS_API}/EstimatedTimeOfArrival/City/${city}${
     routeName ? `/${routeName}` : ''
   }${query}`;
 
-  return fetchTdxApi<BusRoute[]>(url);
+  return fetchTdxApi<BusN1EstimateTime[]>(url);
 };

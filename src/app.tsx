@@ -4,8 +4,9 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import BusRoute from '@src/pages/busRoute';
 import BusStop from '@src/pages/busStop';
 import RouteDetail from '@src/pages/routeDetail';
-import { fetchBusRoute } from './api/fetchBusRoute';
 import useFetchTdxApi from './api/useFetchTdxApi.hook';
+import { fetchBusRoute } from './api/fetchBusRoute';
+import { BusRouteDirectionEnum } from './api/constants';
 
 const Container = styled.div`
   height: 100vh;
@@ -34,24 +35,12 @@ const Page = styled.div`
 
 const App: FC = () => {
   const nevigate = useNavigate();
-  const {
-    fetchData: fetchBusRouteData,
-    isLoading: isFetchBusRouteDataLoading,
-    data: BusRouteData,
-  } = useFetchTdxApi(fetchBusRoute);
-  const {
-    fetchData: fetchSpecificBusRouteData,
-    isLoading: isFetchSpecificBusRouteDataLoading,
-    data: specificBusRouteData,
-  } = useFetchTdxApi(fetchBusRoute);
+  const { fetchData, isLoading, data } = useFetchTdxApi(fetchBusRoute);
   useEffect(() => {
-    fetchBusRouteData();
-    fetchSpecificBusRouteData({
-      queryOptions: {
-        filter: { 'RouteName/Zh_tw': { contains: '306' } },
-      },
+    fetchData({
+      routeName: '306',
     });
-  }, [fetchBusRouteData, fetchSpecificBusRouteData]);
+  }, [fetchData]);
   return (
     <Container>
       <Nav>
@@ -61,19 +50,22 @@ const App: FC = () => {
       </Nav>
       <Page>
         <div>
-          <span>BusRoutes: </span>
-          {isFetchBusRouteDataLoading
+          <span>Bus: </span>
+          {isLoading
             ? 'Loading'
-            : BusRouteData?.map((route) => route.RouteID).join(', ')}
+            : data?.map((item) => (
+                <div>
+                  <span>
+                    StopName:{' '}
+                    {item.SubRoutes?.map((route) =>
+                      route.Direction === BusRouteDirectionEnum.Departure
+                        ? '去程'
+                        : '返程'
+                    ).join(', ')}{' '}
+                  </span>
+                </div>
+              ))}
         </div>
-        <span>
-          Specific Bus Route:{' '}
-          {isFetchSpecificBusRouteDataLoading
-            ? 'Loading'
-            : specificBusRouteData
-                ?.map((route) => route.RouteName.Zh_tw)
-                .join(', ')}
-        </span>
         <Routes>
           <Route path="route" element={<BusRoute />}>
             <Route path=":routeId" element={<RouteDetail />} />
