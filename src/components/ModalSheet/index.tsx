@@ -30,7 +30,7 @@ const ModalSheet: FC<IModalSheet> = ({children, ...props}) => {
         <SheetContainer
             isOpen={isOpen}
             onClose={() => onClose}
-            snapPoints={[.95, .5, .2]}
+            snapPoints={[.95, .5, .2, 0]}
             initialSnap={1}
             onSnap={snapIndex =>
                 console.log('> Current snap point index:', snapIndex)
