@@ -26,7 +26,7 @@ export interface BusSubRoute {
   Headsign?: string; // 車頭描述
   HeadsignEn?: string; // 車頭英文描述
   Direction: BusRouteDirectionEnum; // 去返程 : [0:'去程',1:'返程',2:'迴圈',255:'未知']
-  FirstBusTime?: string; // 平日第一班發車時間
+  FirstBusTime?: string; // 平日第去程一班發車時間
   LastBusTime?: String; // 平日返程第一班發車時間
   HolidayFirstBusTime?: string; // 假日去程第一班發車時間
   HolidayLastBusTime?: String; // 假日返程第一班發車時間
