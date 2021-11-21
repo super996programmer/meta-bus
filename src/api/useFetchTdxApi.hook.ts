@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
 const useFetchTdxApi = <Request, Result>(
-  api: (reqest?: Request) => Promise<Result>
+  api: (request?: Request) => Promise<Result>
 ) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<Result | null>(null);

@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from '@src/app';
-import '@src/style/reset.css';
+import '@style/reset.css';
+import '@style/global.css';
 
 const rootElement = document.getElementById('root');
 ReactDOM.render(
