@@ -1,7 +1,7 @@
 import buildQuery, { QueryOptions } from 'odata-query';
 import { TDX_BUS_API } from './constants';
 import fetchTdxApi from './fetchTdxApi';
-import { BusStop, CityType } from './model';
+import { BusStation, CityType } from './model';
 
 interface SpatialFilter {
   lat: number;
@@ -11,12 +11,12 @@ interface SpatialFilter {
 
 export interface BusStopRequest {
   city?: CityType;
-  queryOptions?: Partial<QueryOptions<BusStop>>;
+  queryOptions?: Partial<QueryOptions<BusStation>>;
   spatialFilter?: SpatialFilter;
 }
 
-// 取得市區公車站牌資料
-export const fetchBusStop = (
+// 取得市區公車站牌所屬站位資料
+export const fetchBusStation = (
   params: BusStopRequest = {
     city: 'Taipei',
     queryOptions: {
@@ -29,9 +29,9 @@ export const fetchBusStop = (
   const spatialFilterQuery = spatialFilter
     ? `$spatialFilter=nearBy(${spatialFilter.lat}, ${spatialFilter.lng}, ${spatialFilter.distanceInMeter})`
     : '';
-  const url = `${TDX_BUS_API}/Stop/City/${city}${query}${
+  const url = `${TDX_BUS_API}/Station/City/${city}${query}${
     query ? `&${spatialFilterQuery}` : `?${spatialFilterQuery}`
   }`;
 
-  return fetchTdxApi<BusStop[]>(url);
+  return fetchTdxApi<BusStation[]>(url);
 };
