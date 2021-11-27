@@ -11,7 +11,7 @@ import closeIconPath from '@img/grayCircleClose.svg';
 
 const Container = styled.div`
     display: flex;
-    padding: 20px;
+    padding: 0 20px 20px;
     background: #FAF7F7;
 `;
 
@@ -37,6 +37,7 @@ const InputIcon = styled(Icon)<{isFocus: boolean}>`
 `;
 
 const CancelText = styled.button`
+    flex-basis: 50px;
     font-size: ${theme.fontSize.S};
     color: #666666;
     padding: 0 8px;
@@ -57,6 +58,7 @@ const SearchInput: FC<ISearchInput> = (props) => {
         isInputFocus,
         setIsInputFocus,
         showBusKeyBoard,
+        setShowBusKeyBoard,
         setSearchResult,
     } = useContext(SearchBusContext);
 
@@ -94,7 +96,7 @@ const SearchInput: FC<ISearchInput> = (props) => {
 
     const handleIconClick = () => {
         if (isInputFocus) {
-            setSearchValue('')
+            setSearchValue('');
             return;
         }
 
@@ -117,8 +119,9 @@ const SearchInput: FC<ISearchInput> = (props) => {
     }
 
     const cancelInput = () => {
-        setSearchValue('')
-        setIsInputFocus(false)
+        setSearchValue('');
+        setIsInputFocus(false);
+        setShowBusKeyBoard(true);
     }
 
     useEffect(() => {
