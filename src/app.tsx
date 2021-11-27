@@ -1,6 +1,10 @@
 import { FC } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '@style/global-theme-variable';
+import { Routes, Route } from 'react-router-dom';
+import NearbyStops from './pages/NearbyStops';
+import { CitySelectProvider } from './context/citySelect.context';
+import { GoogleMapProvider } from './context/googleMap.context';
 
 const Container = styled.div`
   font-size: 14px;
@@ -9,8 +13,15 @@ const Container = styled.div`
 const App: FC = () => (
   <ThemeProvider theme={theme}>
     <Container>
-      <div>This is MetaBus - 公車地圖動態資訊</div>
+      <CitySelectProvider>
+        <GoogleMapProvider>
+          <Routes>
+            <Route path="NearbyStops" element={<NearbyStops />} />
+          </Routes>
+        </GoogleMapProvider>
+      </CitySelectProvider>
     </Container>
   </ThemeProvider>
 );
+
 export default App;
