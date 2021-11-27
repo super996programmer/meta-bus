@@ -14,7 +14,7 @@ const useCurrentLocation = () => {
           lng: position.coords.longitude,
         });
       },
-      (err) => console.log(err)
+      () => undefined
     );
   }, []);
 

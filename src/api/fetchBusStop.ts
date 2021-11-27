@@ -27,7 +27,7 @@ export const fetchBusStop = (
   const { city = 'Taipei', queryOptions = { top: 30 }, spatialFilter } = params;
   const query = buildQuery(queryOptions);
   const spatialFilterQuery = spatialFilter
-    ? `$spatialFilter=nearBy(${spatialFilter.lat}, ${spatialFilter.lng}, ${spatialFilter.distanceInMeter})`
+    ? `$spatialFilter=nearby(${spatialFilter.lat}, ${spatialFilter.lng}, ${spatialFilter.distanceInMeter})`
     : '';
   const url = `${TDX_BUS_API}/Stop/City/${city}${query}${
     query ? `&${spatialFilterQuery}` : `?${spatialFilterQuery}`
