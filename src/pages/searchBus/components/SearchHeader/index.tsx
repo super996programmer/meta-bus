@@ -1,7 +1,7 @@
-import type { FC, Dispatch, SetStateAction } from 'react'
-import styled from 'styled-components'
+import type { FC, Dispatch, SetStateAction } from 'react';
+import styled from 'styled-components';
 import theme from '@src/style/global-theme-variable';
-import ArrowLeft from '@img/arrowLeft.svg'
+import ArrowLeft from '@img/arrowLeft.svg';
 
 const Container = styled.div`
     display: flex;
@@ -9,7 +9,6 @@ const Container = styled.div`
     align-items: center;
     padding: ${theme.fontSize.M};
     background-color: #FAF7F7;
-    border-radius: 30px 30px 0 0;
 `;
 
 const Title = styled.div`

@@ -10,7 +10,8 @@ const Container = styled.nav`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: #f3f3f3;
+  background-color: #FAF7F7;
+  border-radius: 30px 30px 0 0;
 `;
 
 const GoBackButton = styled.div`

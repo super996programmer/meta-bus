@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '@style/global-theme-variable';
 import { Routes, Route } from 'react-router-dom';
 import NearbyStops from './pages/NearbyStops';
+import SearchBus from './pages/searchBus';
 import { CitySelectProvider } from './context/citySelect.context';
 import { GoogleMapProvider } from './context/googleMap.context';
 
@@ -17,6 +18,7 @@ const App: FC = () => (
         <GoogleMapProvider>
           <Routes>
             <Route path="NearbyStops" element={<NearbyStops />} />
+            <Route path="SearchBus" element={<SearchBus />} />
           </Routes>
         </GoogleMapProvider>
       </CitySelectProvider>

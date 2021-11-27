@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import type { FC, ChangeEvent } from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import theme from '@src/style/global-theme-variable';
-import { SearchBusContext } from '@src/pages/searchBus/context';
+import { CitySelectContext } from '@src/context/citySelect.context';
+import { SearchBusContext, ISearchResult } from '@src/pages/searchBus/context';
 import Icon from '@src/components/Icon';
 import searchIconPath from '@img/searchIcon.svg';
 import closeIconPath from '@img/grayCircleClose.svg';
@@ -42,31 +43,53 @@ const CancelText = styled.button`
     cursor: pointer;
 `;
 
-const SearchInput: FC = () => {
+interface ISearchInput {
+    snapToTop: () => void | undefined;
+}
+
+const SearchInput: FC<ISearchInput> = (props) => {
+    const { snapToTop } = props;
+    const inputEl = useRef<HTMLInputElement>(null);
+
     const {
         searchValue,
         setSearchValue,
         isInputFocus,
         setIsInputFocus,
+        showBusKeyBoard,
         setSearchResult,
-        setHasSearched,
     } = useContext(SearchBusContext);
+
+    const { selectedCity } = useContext(CitySelectContext);
+
+    const handleInputFocus = () => {
+        if (showBusKeyBoard && !!inputEl.current) {
+            inputEl.current.blur();
+        }
+
+        setIsInputFocus(true);
+        snapToTop();
+    }
 
     const handleSetValue = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value)
-    }
 
-    const handleBlur = (e: any) => {
-        // if click outside the SearchInput Component, loses focus
-        if(!e.currentTarget.contains(e.relatedTarget)) {
-            // setIsFocus(false)
-            // console.log('---- Lose Focus -----')
-            // console.log(e.currentTarget)
-            // console.log(e.relatedTarget)
-        }
-        // console.log('---- Focus -----')
-        // console.log(e.currentTarget)
-        // console.log(e.relatedTarget)
+        // TODO: 待抽 Hook
+        fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${e.target.value}?$top=30&$format=JSON`)
+            .then(res => res.json())
+            .then(res => {
+                const searchResult: ISearchResult[] = res.map((result: any) => ({
+                    routeUID: result.RouteID,
+                    routeName: result.RouteName.Zh_tw,
+                    departureStopName: result.DepartureStopNameZh,
+                    destinationStopName: result.DestinationStopNameZh
+                })) as ISearchResult[]
+
+                setSearchResult(searchResult)
+            })
+            .catch(() => {
+                setSearchResult([]);
+            })
     }
 
     const handleIconClick = () => {
@@ -75,19 +98,22 @@ const SearchInput: FC = () => {
             return;
         }
 
-        // TODO: Fire API
-        // eslint-disable-next-line no-console
-        console.log('Fire API')
-        const fakedResult = [
-            {
-                routeUID: "10132",
-                routeName: "234",
-                departureStopName: "板橋",
-                destinationStopName: "西門"
-            }
-        ];
-        setSearchResult(fakedResult);
-        setHasSearched(true);
+        // TODO: 待抽 Hook
+        fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${searchValue}?$top=30&$format=JSON`)
+          .then(res => res.json())
+          .then(res => {
+              const searchResult: ISearchResult[] = res.map((result: any) => ({
+                  routeUID: result.RouteID,
+                  routeName: result.RouteName.Zh_tw,
+                  departureStopName: result.DepartureStopNameZh,
+                  destinationStopName: result.DestinationStopNameZh
+              })) as ISearchResult[]
+
+              setSearchResult(searchResult)
+          })
+          .catch(() => {
+              setSearchResult([]);
+          })
     }
 
     const cancelInput = () => {
@@ -95,16 +121,20 @@ const SearchInput: FC = () => {
         setIsInputFocus(false)
     }
 
+    useEffect(() => {
+        setSearchResult([])
+    }, [selectedCity, setSearchResult])
+
     return (
-        <Container
-            onBlur={handleBlur}>
+        <Container>
             <InputContainer>
                 <InputBar
+                    ref={inputEl}
                     type='text'
                     placeholder='請輸入公車號碼與關鍵字'
                     value={searchValue}
                     onChange={handleSetValue}
-                    onFocus={() => setIsInputFocus(true)}
+                    onFocus={handleInputFocus}
                 />
                 <InputIcon
                     isFocus={isInputFocus}

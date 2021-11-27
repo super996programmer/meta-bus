@@ -14,9 +14,9 @@ const Container = styled.div`
 `;
 
 const VirtualKeyBoard: FC= () => {
-    const { isInputFocus, searchValue, setSearchValue } = useContext(SearchBusContext);
+    const { isInputFocus, showBusKeyBoard, searchValue, setSearchValue } = useContext(SearchBusContext);
 
-    if (isInputFocus) {
+    if (isInputFocus && showBusKeyBoard) {
         return (
             <Container>
                 <BusKeyBoard

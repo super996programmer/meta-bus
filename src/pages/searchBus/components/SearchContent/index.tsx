@@ -1,13 +1,14 @@
 import type { FC } from 'react';
-import { useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import theme from '@src/style/global-theme-variable';
-import { SearchBusContext } from '@src/pages/searchBus/context';
+import { SearchBusContext, ISearchResult } from '@src/pages/searchBus/context';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 20px;
+    min-height: 100%;
 `;
 
 const ContentTitle = styled.p`
@@ -17,8 +18,7 @@ const ContentTitle = styled.p`
 `;
 
 const ContentContainer = styled.div`
-    display: flex;
-    flex-direction: column;
+    flex-grow: 1;
 `;
 
 const ResultContainer = styled.div`
@@ -29,6 +29,7 @@ const ResultContainer = styled.div`
 
 const RouteNameBlock = styled.div`
     flex: 0 0 80px;
+    margin-right: 20px;
 `;
 
 const RouteName = styled.div`
@@ -44,57 +45,31 @@ const DepartureAndDestination = styled.div`
     flex: 1 0 auto;
     font-size: ${theme.fontSize.S}; 
     color: #000000;
+    max-width: calc(100% - 100px);
 `;
 
 const SearchContent: FC = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { searchResult, setSearchResult } = useContext(SearchBusContext);
+    const { searchResult, setIsInputFocus } = useContext(SearchBusContext);
 
-
-    useEffect(()=>{
-        setSearchResult([
-            {
-                routeUID: "10132",
-                routeName: "234",
-                departureStopName: "板橋",
-                destinationStopName: "西門"
-            },
-            {
-                routeUID: "10133",
-                routeName: "41",
-                departureStopName: "板橋",
-                destinationStopName: "西門"
-            },
-            {
-                routeUID: "10134",
-                routeName: "11",
-                departureStopName: "板橋",
-                destinationStopName: "西門"
-            },
-            {
-                routeUID: "10135",
-                routeName: "235",
-                departureStopName: "板橋",
-                destinationStopName: "西門"
-            },
-            {
-                routeUID: "10136",
-                routeName: "888",
-                departureStopName: "板橋",
-                destinationStopName: "西門"
-            },
-        ])
-    }, [setSearchResult])
+    const GoToDetail = (routeInform: ISearchResult) => {
+        // TODO: GO Detail Page
+        // eslint-disable-next-line no-console
+        console.log(routeInform)
+    }
 
     return (
-        <Container>
+        <Container
+            onClick={() => setIsInputFocus(false)}
+            onTouchMove={() => setIsInputFocus(false)}>
             <ContentTitle>
                 搜尋結果
             </ContentTitle>
             <ContentContainer>
-                {Array.isArray(searchResult) &&
+                {Array.isArray(searchResult) && searchResult.length > 0 &&
                     searchResult.map(result => (
-                        <ResultContainer key={result.routeUID}>
+                        <ResultContainer
+                            key={result.routeUID}
+                            onClick={() => GoToDetail(result)}>
                             <RouteNameBlock>
                                 <RouteName>
                                     {result.routeName}
@@ -106,6 +81,9 @@ const SearchContent: FC = () => {
                         </ResultContainer>
                     ))
                 }
+                {Array.isArray(searchResult) && searchResult.length === 0 &&
+                    <p>no result</p>
+                } 
             </ContentContainer>
         </Container>
     )

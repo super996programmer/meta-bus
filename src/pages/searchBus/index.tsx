@@ -1,11 +1,11 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
-import Sheet from 'react-modal-sheet';
-import { SearchBusContextProvider } from './context';
-import SearchHeader from './components/SearchHeader';
-import SearchInput from './components/SearchInput';
-import SearchContent from './components/SearchContent';
-import VirtualKeyBoard from './components/VirtaulKeyBoard';
+import Sheet, { SheetRef } from 'react-modal-sheet';
+import Navbar from '@src/components/Navbar';
+import { SearchBusContextProvider } from '@src/pages/searchBus/context';
+import SearchInput from '@src/pages/searchBus/components/SearchInput';
+import SearchContent from '@src/pages/searchBus/components/SearchContent';
+import VirtualKeyBoard from '@src/pages/searchBus/components/VirtaulKeyBoard';
 
 const SheetContainer = styled(Sheet)`
     border-radius: 30px 30px 0 0;    
@@ -31,7 +31,13 @@ export interface ISearchResult {
 
 const SearchBus: FC = () => {
     const [isOpenSheet, setIsOpenSheet] = useState(false);
-    const [selectedCity, setSelectedCity] = useState('Taipei');
+    const ref = useRef<SheetRef>();
+
+    const snapToTop = () => {
+        // eslint-disable-next-line no-console
+        console.log(ref.current)
+        ref.current?.snapTo(0);
+    }
 
     useEffect(() => {
         setIsOpenSheet(true);
@@ -43,15 +49,17 @@ const SearchBus: FC = () => {
             onClose={() => setIsOpenSheet(false)}
             snapPoints={[0.95, 0.5, 0.2]}
             initialSnap={0}
+            ref={ref}
         >
             <SheetContainer.Container>
                 <SearchBusContextProvider>
                     <SheetContainer.Header>
-                        <SearchHeader
-                            selectedCity={selectedCity}
-                            setSelectedCity={setSelectedCity}
+                        <Navbar
+                            title="查詢公車"
+                            isShowBackToButton
+                            isShowCitySelectButton
                         />
-                        <SearchInput />
+                        <SearchInput snapToTop={snapToTop} />
                     </SheetContainer.Header>
                     <SheetContainer.Content disableDrag>
                         <SearchContent />

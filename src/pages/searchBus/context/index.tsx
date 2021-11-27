@@ -13,8 +13,8 @@ interface ISearchBusContext {
     setSearchValue: Dispatch<SetStateAction<string>>;
     isInputFocus: boolean;
     setIsInputFocus: Dispatch<SetStateAction<boolean>>;
-    hasSearched: boolean;
-    setHasSearched: Dispatch<SetStateAction<boolean>>;
+    showBusKeyBoard: boolean;
+    setShowBusKeyBoard: Dispatch<SetStateAction<boolean>>;
     searchResult: ISearchResult[];
     setSearchResult: Dispatch<SetStateAction<ISearchResult[]>>;
     searchHistory: ISearchResult[];
@@ -26,8 +26,8 @@ export const SearchBusContext: Context<ISearchBusContext> = createContext<ISearc
     setSearchValue: () => {},
     isInputFocus: false,
     setIsInputFocus: () => {},
-    hasSearched: false,
-    setHasSearched: () => {},
+    showBusKeyBoard: true,
+    setShowBusKeyBoard: () => {},
     searchResult: [],
     setSearchResult: () => {},
     searchHistory: [],
@@ -39,7 +39,7 @@ export const SearchBusContextProvider: FC = (({children}) => {
     const [searchValue, setSearchValue] = useState('');
     const [isInputFocus, setIsInputFocus] = useState(false);
     // For SearchContent
-    const [hasSearched, setHasSearched] = useState(false);
+    const [showBusKeyBoard, setShowBusKeyBoard] = useState(true);
     const [searchResult, setSearchResult] = useState<ISearchResult[]>([]);
     const [searchHistory, setSearchHistory] = useState<ISearchResult[]>([]);
 
@@ -48,8 +48,8 @@ export const SearchBusContextProvider: FC = (({children}) => {
             setSearchValue,
             isInputFocus,
             setIsInputFocus,
-            hasSearched,
-            setHasSearched,
+            showBusKeyBoard,
+            setShowBusKeyBoard,
             searchResult,
             setSearchResult,
             searchHistory,
@@ -58,8 +58,8 @@ export const SearchBusContextProvider: FC = (({children}) => {
         setSearchValue,
         isInputFocus,
         setIsInputFocus,
-        hasSearched,
-        setHasSearched,
+        showBusKeyBoard,
+        setShowBusKeyBoard,
         searchResult,
         setSearchResult,
         searchHistory,
