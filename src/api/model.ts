@@ -4,7 +4,13 @@ import {
   EstimateBusStopStatusEnum,
 } from './constants';
 
-export type CityType = 'Taipei' | 'NewTaipei';
+export type CityType = 'Taipei' | 'NewTaipei' | 'Kaohsiung';
+
+export interface SpatialFilter {
+  lat: number;
+  lng: number;
+  distanceInMeter: number;
+}
 
 export interface NameType {
   Zh_tw: string; // 中文繁體名稱
@@ -133,7 +139,7 @@ export interface BusStation {
   VersionID: number; // 資料版本編號
 }
 
-interface StationStop {
+export interface StationStop {
   StopUID: string; // 站牌唯一識別代碼，規則為 {業管機關簡碼} + {StopID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢
   StopID: string; // 地區既用中之站牌代碼(為原資料內碼)
   StopName: NameType; // 站牌名稱

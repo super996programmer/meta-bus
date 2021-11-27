@@ -66,6 +66,11 @@ module.exports = {
           filename: 'img/[name].[contenthash][ext]',
         },
       },
+      {
+        test: /\.svg$/,
+        include: [path.resolve(__dirname, 'content', 'icon')],
+        type: 'asset/inline',
+      },
     ],
   },
   plugins: [

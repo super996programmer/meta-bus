@@ -9,7 +9,7 @@ interface SpatialFilter {
   distanceInMeter: number;
 }
 
-export interface BusStopRequest {
+export interface BusStationRequest {
   city?: CityType;
   queryOptions?: Partial<QueryOptions<BusStation>>;
   spatialFilter?: SpatialFilter;
@@ -17,7 +17,7 @@ export interface BusStopRequest {
 
 // 取得市區公車站牌所屬站位資料
 export const fetchBusStation = (
-  params: BusStopRequest = {
+  params: BusStationRequest = {
     city: 'Taipei',
     queryOptions: {
       top: 30,
@@ -27,7 +27,7 @@ export const fetchBusStation = (
   const { city = 'Taipei', queryOptions = { top: 30 }, spatialFilter } = params;
   const query = buildQuery(queryOptions);
   const spatialFilterQuery = spatialFilter
-    ? `$spatialFilter=nearBy(${spatialFilter.lat}, ${spatialFilter.lng}, ${spatialFilter.distanceInMeter})`
+    ? `$spatialFilter=nearby(${spatialFilter.lat}, ${spatialFilter.lng}, ${spatialFilter.distanceInMeter})`
     : '';
   const url = `${TDX_BUS_API}/Station/City/${city}${query}${
     query ? `&${spatialFilterQuery}` : `?${spatialFilterQuery}`
