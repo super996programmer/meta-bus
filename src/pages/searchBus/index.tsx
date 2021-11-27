@@ -1,45 +1,65 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import styled from 'styled-components';
-import BusKeyBoard from '@src/components/KeyBoard';
+import Sheet from 'react-modal-sheet';
+import { SearchBusContextProvider } from './context';
 import SearchHeader from './components/SearchHeader';
+import SearchInput from './components/SearchInput';
+import SearchContent from './components/SearchContent';
+import VirtualKeyBoard from './components/VirtaulKeyBoard';
 
-const PageContainer = styled.div`
-    width: 100%;
-    height: 100%;
+const SheetContainer = styled(Sheet)`
     border-radius: 30px 30px 0 0;    
+
+    .react-modal-sheet-container {
+        border-radius: 30px 30px 0 0 !important;
+        display: flex;
+    }
+
+    .react-modal-sheet-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
-const SearchInput = styled.div`
-    padding: 2rem;
-`;
+export interface ISearchResult {
+    routeUID: string;
+    routeName: string;
+    departureStopName: string;
+    destinationStopName: string;
+}
 
 const SearchBus: FC = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchValue, setSearchValue] = useState('');
+    const [isOpenSheet, setIsOpenSheet] = useState(false);
+    const [selectedCity, setSelectedCity] = useState('Taipei');
 
-    const handleValueInput = (e: any) => {
-        setSearchValue(e.target.value)
-    }
-
-    const handleClickKeyboard = (key: string) => {
-        setSearchValue(key)
-    }
+    useEffect(() => {
+        setIsOpenSheet(true);
+    }, [])
 
     return (
-        <PageContainer>
-            <SearchHeader />
-            <SearchInput>
-                <input
-                    type='text'
-                    value={searchValue}
-                    onChange={handleValueInput}
-                />
-            </SearchInput>
-            <BusKeyBoard
-                value={searchValue}
-                setKeyValue={handleClickKeyboard}
-            />
-        </PageContainer>
+        <SheetContainer
+            isOpen={isOpenSheet}
+            onClose={() => setIsOpenSheet(false)}
+            snapPoints={[0.95, 0.5, 0.2]}
+            initialSnap={0}
+        >
+            <SheetContainer.Container>
+                <SearchBusContextProvider>
+                    <SheetContainer.Header>
+                        <SearchHeader
+                            selectedCity={selectedCity}
+                            setSelectedCity={setSelectedCity}
+                        />
+                        <SearchInput />
+                    </SheetContainer.Header>
+                    <SheetContainer.Content disableDrag>
+                        <SearchContent />
+                    </SheetContainer.Content>
+                    <VirtualKeyBoard />
+                </SearchBusContextProvider>
+            </SheetContainer.Container>
+        </SheetContainer>
     )
 }
 export default SearchBus;

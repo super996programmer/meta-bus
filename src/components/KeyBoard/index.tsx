@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import KeyButtonList, { IKeyButtonList } from './setting/keyButtonList';
 
@@ -28,7 +28,7 @@ const KeyButton = styled.div<{ color?: string }>`
 
 interface IBusKeyBoard {
   value: string;
-  setKeyValue: (key: string) => void;
+  setKeyValue: Dispatch<SetStateAction<string>>;
 }
 
 const BusKeyBoard: FC<IBusKeyBoard> = (props) => {
