@@ -4,13 +4,12 @@ import {
 } from '../../api/constants';
 
 import {
-  BusStopOfRoute,
   BusN1EstimateTime,
-  StopOfRoute,
+  BusDisplayStopOfRoute,
   BusA2Data,
 } from '../../api/model';
 
-interface StopOfRouteWithEstimate extends StopOfRoute {
+interface StopOfRouteWithEstimate extends BusDisplayStopOfRoute {
   displayEstimatedTime?: string | undefined;
   estimate?: number | undefined;
   plateNumb?: string | undefined;
@@ -19,8 +18,8 @@ interface StopOfRouteWithEstimate extends StopOfRoute {
 interface FormatBusStopWithSortData {
   goBusCoordinates: Coordinates[];
   backBusCoordinates: Coordinates[];
-  goDirectionBusStopMap: Map<string, StopOfRoute>;
-  backDirectionBusStopMap: Map<string, StopOfRoute>;
+  goDirectionBusStopMap: Map<string, BusDisplayStopOfRoute>;
+  backDirectionBusStopMap: Map<string, BusDisplayStopOfRoute>;
 }
 
 interface Coordinates {
@@ -35,26 +34,22 @@ export interface Location {
 }
 
 export const formatBusStopWithSort = (
-  busStopList: BusStopOfRoute[],
-  subRouteUID: string
+  busStopList: BusDisplayStopOfRoute[]
 ): FormatBusStopWithSortData => {
   const goBusCoordinates = [] as Coordinates[];
   const backBusCoordinates = [] as Coordinates[];
 
-  const busStopWithCorrectSubRouteUID = busStopList?.filter(
-    (item) => item.SubRouteUID === subRouteUID
-  );
   const goDirectionBusStop =
-    busStopWithCorrectSubRouteUID
+    busStopList
       .find((item) => item.Direction === 0)
       ?.Stops.sort((a, b) => a.StopSequence - b.StopSequence) || [];
   const backDirectionBusStop =
-    busStopWithCorrectSubRouteUID
+    busStopList
       .find((item) => item.Direction === 1)
       ?.Stops.sort((a, b) => a.StopSequence - b.StopSequence) || [];
 
-  const goDirectionBusStopMap = new Map<string, StopOfRoute>();
-  const backDirectionBusStopMap = new Map<string, StopOfRoute>();
+  const goDirectionBusStopMap = new Map<string, BusDisplayStopOfRoute>();
+  const backDirectionBusStopMap = new Map<string, BusDisplayStopOfRoute>();
 
   goDirectionBusStop?.forEach((item) => {
     goBusCoordinates.push({
@@ -107,11 +102,11 @@ export const getBusStopStatusDisplayWord = (
 
 export const formatEstimateTime = (
   estimatedTimeData: BusN1EstimateTime[] | null,
-  busStopMap: Map<string, StopOfRoute>,
+  busStopMap: Map<string, BusDisplayStopOfRoute>,
   busNearStopData: BusA2Data[] | null
-): Map<string, StopOfRouteWithEstimate | StopOfRoute> | null => {
+): Map<string, StopOfRouteWithEstimate | BusDisplayStopOfRoute> | null => {
   if (!estimatedTimeData || !busNearStopData) return null;
-  const copyMap = new Map<string, StopOfRoute>(busStopMap);
+  const copyMap = new Map<string, BusDisplayStopOfRoute>(busStopMap);
   estimatedTimeData?.forEach((element) => {
     const { StopUID, EstimateTime, StopStatus } = element;
     if (StopUID && copyMap.has(StopUID)) {
@@ -123,7 +118,10 @@ export const formatEstimateTime = (
           StopStatus
         ),
       };
-      copyMap.set(StopUID, value as StopOfRouteWithEstimate | StopOfRoute);
+      copyMap.set(
+        StopUID,
+        value as StopOfRouteWithEstimate | BusDisplayStopOfRoute
+      );
     }
   });
 
@@ -135,7 +133,10 @@ export const formatEstimateTime = (
         ...copyMap.get(StopUID),
         plateNumb: element.PlateNumb,
       };
-      copyMap.set(StopUID, value as StopOfRouteWithEstimate | StopOfRoute);
+      copyMap.set(
+        StopUID,
+        value as StopOfRouteWithEstimate | BusDisplayStopOfRoute
+      );
     }
   });
 
