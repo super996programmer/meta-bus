@@ -1,6 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect, useState, useRef, useCallback } from 'react';
+import {
+  FC,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
 import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import {
@@ -12,7 +19,7 @@ import {
 } from '@react-google-maps/api';
 import currentIcon from '@img/currentIcon.svg';
 import busStopIcon from '@img/busStopIcon.svg';
-import { fetchStopOfRoute } from '../../api/fetchStopOfRoute';
+import { CitySelectContext } from '@src/context/citySelect.context';
 import { fetchEstimatedTimeOfArrival } from '../../api/fetchEstimatedTimeOfArrival';
 import { fetchRealTimeNearStop } from '../../api/fetchRealTimeNearStop';
 import { fetchBusRoute } from '../../api/fetchBusRoute';
@@ -163,6 +170,8 @@ const Tab = styled.div<{ isActive: boolean }>`
 `;
 
 const RouteDetail: FC = () => {
+  const { selectedCity } = useContext(CitySelectContext);
+
   const params = useParams();
   const { routeName, routeUID } = params;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -196,10 +205,10 @@ const RouteDetail: FC = () => {
   } = useFetchTdxApi(fetchRealTimeNearStop);
 
   useEffect(() => {
-    getBusRoute({ routeName });
-    getStopOfRoute({ routeName });
-    getEstimatedTimeOfArrival({ routeName });
-    getRealTimeNearStop({ routeName });
+    getBusRoute({ city: selectedCity, routeName });
+    getStopOfRoute({ city: selectedCity, routeName });
+    getEstimatedTimeOfArrival({ city: selectedCity, routeName });
+    getRealTimeNearStop({ city: selectedCity, routeName });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeName]);
   const currentBusRouteData = busRouteData?.find(
@@ -363,7 +372,7 @@ const RouteDetail: FC = () => {
         )}
       </div>
       <ModalSheet isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <ModalHeader routeName={routeName || ''} isFav={false} />
+        <ModalHeader routeName={routeName || ''} />
         <TabsContainer>
           <Tab isActive={isGoDirection} onClick={() => handleClickTab(0)}>
             往{currentBusRouteData?.DestinationStopNameZh}
@@ -381,7 +390,7 @@ const RouteDetail: FC = () => {
                 const routeDetailDataSize = routeDetailData.size;
                 return (
                   <StopContainer
-                    key={stop.StopUID}
+                    key={stop?.StopUID}
                     isBusArriving={!!plateNumb}
                     isLast={i === routeDetailDataSize - 1}
                   >
@@ -389,7 +398,7 @@ const RouteDetail: FC = () => {
                       <ArrivalTimeContainer isBusArriving={!!plateNumb}>
                         {displayEstimatedTime}
                       </ArrivalTimeContainer>
-                      <StopName>{stop.StopName.Zh_tw}</StopName>
+                      <StopName>{stop?.StopName.Zh_tw}</StopName>
                     </StopContainerLeft>
                     {plateNumb && <BusToolTip>{plateNumb}</BusToolTip>}
                   </StopContainer>
