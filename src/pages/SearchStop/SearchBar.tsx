@@ -41,7 +41,6 @@ interface Props {
 }
 
 const SearchBar: FC<Props> = ({ setSearchValue }) => {
-  console.log('searchBar run');
   const [inputValue, setInputValue] = useState<string>('');
   const [isCompositionValue, setIsCompositionValue] = useState<boolean>(false);
 

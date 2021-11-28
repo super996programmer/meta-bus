@@ -29,7 +29,7 @@ const StationInfoBlock = styled.div`
 
 const StationInfoDesc = styled.div`
   display: flex;
-  flex: wrap;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
 `;

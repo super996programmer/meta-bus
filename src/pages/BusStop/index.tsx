@@ -62,7 +62,6 @@ const getBusStationWithRoutesInfo = (
 };
 
 const BusStop: FC = () => {
-  console.log('BusStop Run');
   const { stationID } = useParams();
 
   const { selectedCity } = useContext(CitySelectContext);

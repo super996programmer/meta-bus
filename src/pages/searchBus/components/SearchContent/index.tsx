@@ -80,9 +80,6 @@ const SearchContent: FC = () => {
               </DepartureAndDestination>
             </ResultContainer>
           ))}
-        {Array.isArray(searchResult) && searchResult.length === 0 && (
-          <p>no result</p>
-        )}
       </ContentContainer>
     </Container>
   );
