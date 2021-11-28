@@ -1,7 +1,7 @@
 import { FC, useContext } from 'react';
 import { BusStation } from '@src/api/model';
 import BusStopDetail from '@src/components/BusStopDetail';
-import { BusRouteOfStop, BusStationWithRoutesInfo } from './model';
+import { BusRouteOfStop, BusStationWithRoutesInfo } from '@src/model';
 import { NearbyStopInfoContext } from './context/nearByStopInfo.context';
 
 const getBusStationWithRoutesInfo = (

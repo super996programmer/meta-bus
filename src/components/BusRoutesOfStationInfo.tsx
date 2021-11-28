@@ -4,7 +4,7 @@ import {
   BusRouteDirectionEnum,
   EstimateBusStopStatusEnum,
 } from '@src/api/constants';
-import { BusRouteOfStop } from '../pages/NearbyStops/model';
+import { BusRouteOfStop } from '@src/model';
 
 const BusRouteInfo = styled.div`
   display: flex;

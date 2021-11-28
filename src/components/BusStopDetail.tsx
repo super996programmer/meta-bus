@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import Sheet from 'react-modal-sheet';
 import styled from 'styled-components';
-import { BusStationWithRoutesInfo } from '@src/pages/NearbyStops/model';
+import { BusStationWithRoutesInfo } from '@src/model';
 import Navbar from '@src/components/Navbar';
 import BusRoutesOfStationInfo from '@src/components/BusRoutesOfStationInfo';
 import busStopIcon from '@icon/busStop.svg';
@@ -15,6 +15,7 @@ interface Props {
 
 const Content = styled.div`
   padding: 20px;
+  padding-bottom: 45vh;
 `;
 
 const BusStopInfo = styled.div`
@@ -75,7 +76,7 @@ const BusStopDetail: FC<Props> = ({
             isShowCitySelectButton={false}
           />
         </Sheet.Header>
-        <Sheet.Content>
+        <Sheet.Content disableDrag>
           <Content>
             <BusStopInfo>
               <img src={busStopIcon} width="40" alt="Bus Stop" />

@@ -9,7 +9,7 @@ import getDistance from './utils/getDistance';
 import { NearbyStopInfoContext } from './context/nearByStopInfo.context';
 
 const Content = styled.div`
-  padding-bottom: 80px;
+  padding-bottom: 45vh;
   background-color: #fafafa;
   font-size: ${({ theme }) => theme.fontSize.S};
 `;

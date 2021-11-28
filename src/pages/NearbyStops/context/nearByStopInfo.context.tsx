@@ -12,7 +12,7 @@ import useFetchBusStationWithRoutes from '@src/hooks/useFetchBusStationWithRoute
 import { BusStation } from '@src/api/model';
 import { CitySelectContext } from '@src/context/citySelect.context';
 import useCurrentLocation from '@src/hooks/useCurrentLocation.hook';
-import { BusRouteOfStop } from '../model';
+import { BusRouteOfStop } from '@src/model';
 
 interface Context {
   selectedDistanceInMeter: number;

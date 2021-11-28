@@ -12,7 +12,7 @@ import {
   SpatialFilter,
 } from '@src/api/model';
 import { RE_FETCH_API_INTERVAL_IN_SECONDS } from '@src/api/constants';
-import { RouteOfStopMapping, BusRouteOfStop } from '../pages/NearbyStops/model';
+import { RouteOfStopMapping, BusRouteOfStop } from '@src/model';
 
 const getBusRouteOfStopData = (
   routeOfStopMapping: RouteOfStopMapping[],
