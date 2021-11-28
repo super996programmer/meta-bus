@@ -1,16 +1,19 @@
 import { FC } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import theme from '@style/global-theme-variable';
-
-const Container = styled.div`
-  font-size: 14px;
-`;
+import { Routes, Route } from 'react-router-dom';
+import RouteDetail from './pages/routeDetail';
+import Home from './pages/home';
 
 const App: FC = () => (
   <ThemeProvider theme={theme}>
-    <Container>
-      <div>This is MetaBus - 公車地圖動態資訊</div>
-    </Container>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route
+        path="routeDetail/:routeName/:routeUID/:subRouteUID"
+        element={<RouteDetail />}
+      />
+    </Routes>
   </ThemeProvider>
 );
 export default App;

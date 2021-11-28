@@ -83,7 +83,7 @@ export interface BusDisplayStopOfRoute {
   VersionID: number; // 資料版本編號
 }
 
-interface StopOfRoute {
+export interface StopOfRoute {
   StopUID: string; // 站牌唯一識別代碼，規則為 {業管機關簡碼} + {StopID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢
   StopID: string; // 地區既用中之站牌代碼(為原資料內碼)
   StopName: NameType; // 站牌名稱

@@ -26,3 +26,11 @@ export const enum BusStopVehicleStatusEnum {
   Departure, // 離站
   Arrival, // 進站
 }
+
+export const STOP_STATUS_MAP = {
+  [EstimateBusStopStatusEnum.Normal]: '正常',
+  [EstimateBusStopStatusEnum.BusAtDepot]: '尚未發車',
+  [EstimateBusStopStatusEnum.Rerouted]: '交管不停靠',
+  [EstimateBusStopStatusEnum.ServiceOver]: '末班車已過',
+  [EstimateBusStopStatusEnum.NoService]: '今日未營運',
+};
