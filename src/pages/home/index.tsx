@@ -3,6 +3,7 @@ import searchBusImg from '@img/searchBus.svg';
 import searchStopImg from '@img/searchStop.svg';
 import nearByStopImg from '@img/nearByStop.svg';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import ModalSheet from '../../components/ModalSheet';
 
 const MainContainer = styled.div`
@@ -29,9 +30,18 @@ const Home: FC = () => {
       <ModalSheet isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <MainContainer>
           <ActionContainer>
-            <img src={searchBusImg} alt="img" />
-            <img src={searchStopImg} alt="img" />
-            <img src={nearByStopImg} alt="img" />
+            <Link to="SearchBus">
+              <img src={searchBusImg} alt="img" />
+              查詢公車
+            </Link>
+            <Link to="NearbyStops">
+              <img src={searchStopImg} alt="img" />
+              附近站牌
+            </Link>
+            <Link to="SearchStop">
+              <img src={nearByStopImg} alt="img" />
+              查詢站牌
+            </Link>
           </ActionContainer>
         </MainContainer>
       </ModalSheet>

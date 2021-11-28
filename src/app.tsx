@@ -23,7 +23,7 @@ const App: FC = () => (
             <Route path="NearbyStops" element={<NearbyStops />} />
             <Route path="SearchBus" element={<SearchBus />} />
             <Route
-              path="routeDetail/:routeName/:routeUID/:subRouteUID"
+              path="RouteDetail/:routeName/:routeUID"
               element={<RouteDetail />}
             />
           </Routes>

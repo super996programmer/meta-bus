@@ -45,21 +45,23 @@ const BusKeyBoard: FC<IBusKeyBoard> = (props) => {
         setKeyValue(keySetting.value);
 
         // TODO: 待抽 Hook
-        fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${keySetting.value}?$top=30&$format=JSON`)
-          .then(res => res.json())
-          .then(res => {
-              const searchResult: ISearchResult[] = res.map((result: any) => ({
-                  routeUID: result.RouteID,
-                  routeName: result.RouteName.Zh_tw,
-                  departureStopName: result.DepartureStopNameZh,
-                  destinationStopName: result.DestinationStopNameZh
-              })) as ISearchResult[]
+        fetch(
+          `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${keySetting.value}?$top=30&$format=JSON`
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            const searchResult: ISearchResult[] = res.map((result: any) => ({
+              routeUID: result.RouteUID,
+              routeName: result.RouteName.Zh_tw,
+              departureStopName: result.DepartureStopNameZh,
+              destinationStopName: result.DestinationStopNameZh,
+            })) as ISearchResult[];
 
-              setSearchResult(searchResult)
+            setSearchResult(searchResult);
           })
           .catch(() => {
-              setSearchResult([]);
-          })
+            setSearchResult([]);
+          });
 
         break;
       }
@@ -68,21 +70,23 @@ const BusKeyBoard: FC<IBusKeyBoard> = (props) => {
         setKeyValue(newValue);
 
         // TODO: 待抽 Hook
-        fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${newValue}?$top=30&$format=JSON`)
-            .then(res => res.json())
-            .then(res => {
-                const searchResult: ISearchResult[] = res.map((result: any) => ({
-                    routeUID: result.RouteID,
-                    routeName: result.RouteName.Zh_tw,
-                    departureStopName: result.DepartureStopNameZh,
-                    destinationStopName: result.DestinationStopNameZh
-                })) as ISearchResult[]
+        fetch(
+          `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${newValue}?$top=30&$format=JSON`
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            const searchResult: ISearchResult[] = res.map((result: any) => ({
+              routeUID: result.RouteUID,
+              routeName: result.RouteName.Zh_tw,
+              departureStopName: result.DepartureStopNameZh,
+              destinationStopName: result.DestinationStopNameZh,
+            })) as ISearchResult[];
 
-                setSearchResult(searchResult)
-            })
-            .catch(() => {
-                setSearchResult([]);
-            })
+            setSearchResult(searchResult);
+          })
+          .catch(() => {
+            setSearchResult([]);
+          });
 
         break;
       }

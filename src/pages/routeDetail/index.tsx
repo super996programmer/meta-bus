@@ -16,6 +16,8 @@ import { fetchStopOfRoute } from '../../api/fetchStopOfRoute';
 import { fetchEstimatedTimeOfArrival } from '../../api/fetchEstimatedTimeOfArrival';
 import { fetchRealTimeNearStop } from '../../api/fetchRealTimeNearStop';
 import { fetchBusRoute } from '../../api/fetchBusRoute';
+import { fetchDisplayStopOfRoute } from '../../api/fetchDisplayStopOfRoute';
+
 import useFetchTdxApi from '../../api/useFetchTdxApi.hook';
 import ModalSheet from '../../components/ModalSheet';
 import { formatBusStopWithSort, formatEstimateTime, Location } from './helper';
@@ -162,7 +164,7 @@ const Tab = styled.div<{ isActive: boolean }>`
 
 const RouteDetail: FC = () => {
   const params = useParams();
-  const { routeName, routeUID, subRouteUID } = params;
+  const { routeName, routeUID } = params;
   const [isModalOpen, setIsModalOpen] = useState(false);
   // 公車去返程方向，0 是去程，1 是返程
   const [direction, setDirection] = useState(0);
@@ -179,7 +181,7 @@ const RouteDetail: FC = () => {
     fetchData: getStopOfRoute,
     isLoading: isStopOfRouteLoading,
     data: stopOfRouteData,
-  } = useFetchTdxApi(fetchStopOfRoute);
+  } = useFetchTdxApi(fetchDisplayStopOfRoute);
   // 取得市區公車預估到站資料(N1)
   const {
     fetchData: getEstimatedTimeOfArrival,
@@ -200,7 +202,6 @@ const RouteDetail: FC = () => {
     getRealTimeNearStop({ routeName });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeName]);
-
   const currentBusRouteData = busRouteData?.find(
     (item) => item.RouteUID === routeUID
   );
@@ -211,7 +212,7 @@ const RouteDetail: FC = () => {
     backBusCoordinates,
     goDirectionBusStopMap,
     backDirectionBusStopMap,
-  } = formatBusStopWithSort(stopOfRouteData || [], subRouteUID as string);
+  } = formatBusStopWithSort(stopOfRouteData || []);
 
   // 去程資料
   const goData = formatEstimateTime(
