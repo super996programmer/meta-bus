@@ -1,45 +1,73 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
-import BusKeyBoard from '@src/components/KeyBoard';
-import SearchHeader from './components/SearchHeader';
+import Sheet, { SheetRef } from 'react-modal-sheet';
+import Navbar from '@src/components/Navbar';
+import { SearchBusContextProvider } from '@src/pages/searchBus/context';
+import SearchInput from '@src/pages/searchBus/components/SearchInput';
+import SearchContent from '@src/pages/searchBus/components/SearchContent';
+import VirtualKeyBoard from '@src/pages/searchBus/components/VirtaulKeyBoard';
 
-const PageContainer = styled.div`
-    width: 100%;
-    height: 100%;
+const SheetContainer = styled(Sheet)`
     border-radius: 30px 30px 0 0;    
+
+    .react-modal-sheet-container {
+        border-radius: 30px 30px 0 0 !important;
+        display: flex;
+    }
+
+    .react-modal-sheet-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
-const SearchInput = styled.div`
-    padding: 2rem;
-`;
+export interface ISearchResult {
+    routeUID: string;
+    routeName: string;
+    departureStopName: string;
+    destinationStopName: string;
+}
 
 const SearchBus: FC = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchValue, setSearchValue] = useState('');
+    const [isOpenSheet, setIsOpenSheet] = useState(false);
+    const ref = useRef<SheetRef>();
 
-    const handleValueInput = (e: any) => {
-        setSearchValue(e.target.value)
+    const snapToTop = () => {
+        // eslint-disable-next-line no-console
+        console.log(ref.current)
+        ref.current?.snapTo(0);
     }
 
-    const handleClickKeyboard = (key: string) => {
-        setSearchValue(key)
-    }
+    useEffect(() => {
+        setIsOpenSheet(true);
+    }, [])
 
     return (
-        <PageContainer>
-            <SearchHeader />
-            <SearchInput>
-                <input
-                    type='text'
-                    value={searchValue}
-                    onChange={handleValueInput}
-                />
-            </SearchInput>
-            <BusKeyBoard
-                value={searchValue}
-                setKeyValue={handleClickKeyboard}
-            />
-        </PageContainer>
+        <SheetContainer
+            isOpen={isOpenSheet}
+            onClose={() => setIsOpenSheet(false)}
+            snapPoints={[0.95, 0.5, 0.2]}
+            initialSnap={0}
+            ref={ref}
+        >
+            <SheetContainer.Container>
+                <SearchBusContextProvider>
+                    <SheetContainer.Header>
+                        <Navbar
+                            title="查詢公車"
+                            isShowBackToButton
+                            isShowCitySelectButton
+                        />
+                        <SearchInput snapToTop={snapToTop} />
+                    </SheetContainer.Header>
+                    <SheetContainer.Content disableDrag>
+                        <SearchContent />
+                    </SheetContainer.Content>
+                    <VirtualKeyBoard />
+                </SearchBusContextProvider>
+            </SheetContainer.Container>
+        </SheetContainer>
     )
 }
 export default SearchBus;

@@ -1,31 +1,37 @@
-import { FC, useState } from 'react'
-import styled from 'styled-components'
-import ArrowLeft from '@img/arrowLeft.svg'
+import type { FC, Dispatch, SetStateAction } from 'react';
+import styled from 'styled-components';
+import theme from '@src/style/global-theme-variable';
+import ArrowLeft from '@img/arrowLeft.svg';
 
 const Container = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 2rem;
+    align-items: center;
+    padding: ${theme.fontSize.M};
     background-color: #FAF7F7;
-    border-radius: 30px 30px 0 0;
 `;
 
 const Title = styled.div`
-    font-size: 1.15rem;
+    font-size: ${theme.fontSize.M};
     font-weight: bolder;
 `;
 
 const GoBack = styled.div`
-    width: 2rem;
-    height: 2rem;
+    width: ${theme.fontSize.M};
+    height: ${theme.fontSize.M};
     cursor: pointer;
     background-image: url(${ArrowLeft});
     background-position: center;
     background-size: cover;
 `;
 
-const SearchHeader: FC = () => {
-    const [selectedCity, setSelectedCity] = useState('Taipei')
+interface ISearchHeader {
+    selectedCity: string;
+    setSelectedCity: Dispatch<SetStateAction<string>>;
+}
+
+const SearchHeader: FC<ISearchHeader> = (props) => {
+    const { selectedCity, setSelectedCity } = props;
 
     const handleSelectCity = (cityName: string) => {
         setSelectedCity(cityName)
@@ -37,6 +43,7 @@ const SearchHeader: FC = () => {
             <Title>
                 查詢公車
             </Title>
+            {/* TODO: choose city component */}
             <button type="button" onClick={() => handleSelectCity('Taoyuan')}>
                 {selectedCity}
             </button>

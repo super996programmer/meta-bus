@@ -1,5 +1,8 @@
-import { FC } from 'react';
+import type { FC, Dispatch, SetStateAction } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { CitySelectContext } from '@src/context/citySelect.context';
+import { SearchBusContext, ISearchResult } from '@src/pages/searchBus/context';
 import KeyButtonList, { IKeyButtonList } from './setting/keyButtonList';
 
 const Container = styled.div`
@@ -28,28 +31,64 @@ const KeyButton = styled.div<{ color?: string }>`
 
 interface IBusKeyBoard {
   value: string;
-  setKeyValue: (key: string) => void;
+  setKeyValue: Dispatch<SetStateAction<string>>;
 }
 
 const BusKeyBoard: FC<IBusKeyBoard> = (props) => {
   const { value, setKeyValue } = props;
+  const { selectedCity } = useContext(CitySelectContext);
+  const { setSearchResult } = useContext(SearchBusContext);
 
   const handleClickKey = (keySetting: IKeyButtonList) => {
-    // eslint-disable-next-line no-console
-    console.log(value);
-
     switch (keySetting.type) {
       case 'Line': {
         setKeyValue(keySetting.value);
+
+        // TODO: 待抽 Hook
+        fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${keySetting.value}?$top=30&$format=JSON`)
+          .then(res => res.json())
+          .then(res => {
+              const searchResult: ISearchResult[] = res.map((result: any) => ({
+                  routeUID: result.RouteID,
+                  routeName: result.RouteName.Zh_tw,
+                  departureStopName: result.DepartureStopNameZh,
+                  destinationStopName: result.DestinationStopNameZh
+              })) as ISearchResult[]
+
+              setSearchResult(searchResult)
+          })
+          .catch(() => {
+              setSearchResult([]);
+          })
+
         break;
       }
       case 'Text': {
         const newValue = value + keySetting.value;
         setKeyValue(newValue);
+
+        // TODO: 待抽 Hook
+        fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${newValue}?$top=30&$format=JSON`)
+            .then(res => res.json())
+            .then(res => {
+                const searchResult: ISearchResult[] = res.map((result: any) => ({
+                    routeUID: result.RouteID,
+                    routeName: result.RouteName.Zh_tw,
+                    departureStopName: result.DepartureStopNameZh,
+                    destinationStopName: result.DestinationStopNameZh
+                })) as ISearchResult[]
+
+                setSearchResult(searchResult)
+            })
+            .catch(() => {
+                setSearchResult([]);
+            })
+
         break;
       }
       case 'Clear': {
         setKeyValue('');
+        setSearchResult([]);
         break;
       }
       default:
