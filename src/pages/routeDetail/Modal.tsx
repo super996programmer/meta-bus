@@ -2,8 +2,7 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import arrowLeft from '@img/arrowLeft.svg';
 import mapIcon from '@img/mapIcon.svg';
-import heart from '@img/heart.svg';
-import heartOutline from '@img/heartOutline.svg';
+import { Link } from 'react-router-dom';
 
 const ModalSection = styled.div`
   flex: 1;
@@ -41,12 +40,13 @@ const HeaderIcon = styled.img`
 
 export const ModalHeader: FC<{
   routeName: string;
-  isFav: boolean;
-}> = ({ routeName, isFav }) => (
+}> = ({ routeName }) => (
   <HeaderContainer>
     <ModalSection>
       <Right>
-        <img src={arrowLeft} alt="go back" width="21px" height="17px" />
+        <Link to="/SearchBus">
+          <img src={arrowLeft} alt="go back" width="21px" height="17px" />
+        </Link>
       </Right>
     </ModalSection>
     <ModalSection>
@@ -55,7 +55,6 @@ export const ModalHeader: FC<{
     <ModalSection>
       <Left>
         <HeaderIcon src={mapIcon} alt="map" />
-        <HeaderIcon src={isFav ? heart : heartOutline} alt="fav" />
       </Left>
     </ModalSection>
   </HeaderContainer>
