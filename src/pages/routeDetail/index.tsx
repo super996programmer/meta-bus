@@ -12,7 +12,6 @@ import { useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import {
   GoogleMap,
-  useLoadScript,
   Marker,
   InfoWindow,
   Polyline,
@@ -20,26 +19,17 @@ import {
 import currentIcon from '@img/currentIcon.svg';
 import busStopIcon from '@img/busStopIcon.svg';
 import { CitySelectContext } from '@src/context/citySelect.context';
+import { GoogleMapContext } from '@src/context/googleMap.context';
+import useCurrentLocation from '@src/hooks/useCurrentLocation.hook';
+import useWindowHeight from '@src/hooks/useWindowHeight.hook';
 import { fetchEstimatedTimeOfArrival } from '../../api/fetchEstimatedTimeOfArrival';
 import { fetchRealTimeNearStop } from '../../api/fetchRealTimeNearStop';
 import { fetchBusRoute } from '../../api/fetchBusRoute';
 import { fetchDisplayStopOfRoute } from '../../api/fetchDisplayStopOfRoute';
-
 import useFetchTdxApi from '../../api/useFetchTdxApi.hook';
 import ModalSheet from '../../components/ModalSheet';
-import { formatBusStopWithSort, formatEstimateTime, Location } from './helper';
+import { formatBusStopWithSort, formatEstimateTime } from './helper';
 import { ModalHeader } from './Modal';
-
-const libraries: any = ['places'];
-
-const mapContainerStyle = {
-  height: '100vh',
-  width: '100vw',
-};
-
-const options = {
-  zoomControl: true,
-};
 
 const Container = styled.div`
   padding: 30px 30px 30px 10px;
@@ -171,6 +161,12 @@ const Tab = styled.div<{ isActive: boolean }>`
 
 const RouteDetail: FC = () => {
   const { selectedCity } = useContext(CitySelectContext);
+  const {
+    isLoaded: mapIsLoaded,
+    loadError: mapLoadError,
+    defaultMapSetting: mapDefaultMapSetting,
+  } = useContext(GoogleMapContext);
+  const windowHeight = useWindowHeight();
 
   const params = useParams();
   const { routeName, routeUID } = params;
@@ -241,32 +237,13 @@ const RouteDetail: FC = () => {
     setIsModalOpen(true);
   }, []);
 
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: '',
-    libraries,
-  });
-
-  const [currentLocation, setCurrentLocation] = useState<Location>({
-    lat: 0,
-    lng: 0,
-  });
+  const currentLocation = useCurrentLocation();
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setCurrentLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      () => null
-    );
-  }, []);
   const panTo = useCallback(({ lat, lng }) => {
     // @ts-ignore
     mapRef?.current?.panTo({ lat, lng });
@@ -311,13 +288,21 @@ const RouteDetail: FC = () => {
   return (
     <>
       <div>
-        {isLoaded && !loadError && (
+        {mapIsLoaded && !mapLoadError && (
           <GoogleMap
             id="map"
-            mapContainerStyle={mapContainerStyle}
+            mapContainerStyle={{
+              width: '100vw',
+              height: `${windowHeight}px`,
+            }}
             zoom={15}
             center={currentLocation}
-            options={options}
+            options={{
+              ...mapDefaultMapSetting,
+              zoomControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_TOP,
+              },
+            }}
             onLoad={onMapLoad}
           >
             {currentLocation && (

@@ -5,7 +5,8 @@ import nearByStopImg from '@img/nearByStop.svg';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { CitySelectContext } from '@src/context/citySelect.context';
-import ModalSheet from '../../components/ModalSheet';
+import MyCurrentLocationMap from '@src/components/MyCurrentLocationMap';
+import ModalSheet from '@src/components/ModalSheet';
 
 const ActionImg = styled.img`
   height: 50px;
@@ -52,6 +53,7 @@ const Home: FC = () => {
 
   return (
     <>
+      <MyCurrentLocationMap />
       <ModalSheet isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <MainContainer>
           <SelectButton
