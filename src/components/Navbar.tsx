@@ -10,7 +10,7 @@ const Container = styled.nav`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: #FAF7F7;
+  background-color: #faf7f7;
   border-radius: 30px 30px 0 0;
 `;
 

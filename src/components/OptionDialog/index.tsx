@@ -22,7 +22,7 @@ const Dialog = styled.div`
   border-radius: 5px;
   padding: 10px;
   max-height: 200px;
-  width: 200px;
+  width: 250px;
   background: #ffffff;
   overflow: scroll;
   transform: translate(-50%, -50%);
@@ -32,7 +32,8 @@ const Option = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
+  padding: 15px;
+  font-weight: bold;
   & input {
     all: revert;
   }

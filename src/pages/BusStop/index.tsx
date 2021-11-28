@@ -1,5 +1,6 @@
 import { FC, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { RE_FETCH_API_INTERVAL_IN_SECONDS } from '@src/api/constants';
 import useFetchTdxApi from '@src/api/useFetchTdxApi.hook';
 import { fetchBusStation } from '@src/api/fetchBusStation';
 import { CitySelectContext } from '@src/context/citySelect.context';
@@ -61,6 +62,7 @@ const getBusStationWithRoutesInfo = (
 };
 
 const BusStop: FC = () => {
+  console.log('BusStop Run');
   const { stationID } = useParams();
 
   const { selectedCity } = useContext(CitySelectContext);
@@ -68,18 +70,19 @@ const BusStop: FC = () => {
   const {
     fetchData: fetchBusStationData,
     data: busStationData,
-    isLoading: isFetchBusStationLoading,
+    // isLoading: isFetchBusStationLoading,
   } = useFetchTdxApi(fetchBusStation);
+
   const {
     fetchData: fetchBusRouteByStationData,
     data: busRouteByStationData,
-    isLoading: isFetchBusRouteByStationLoading,
+    // isLoading: isFetchBusRouteByStationLoading,
   } = useFetchTdxApi(fetchBusRouteByStation);
 
   const {
     fetchData: fetchEstimatedTimeOfArrivalByStationData,
     data: estimatedTimeOfArrivalByStationData,
-    isLoading: isFetchEstimatedTimeOfArrivalByStationLoading,
+    // isLoading: isFetchEstimatedTimeOfArrivalByStationLoading,
   } = useFetchTdxApi(fetchEstimatedTimeOfArrivalByStation);
 
   useEffect(() => {
@@ -97,6 +100,17 @@ const BusStop: FC = () => {
       city: selectedCity,
       stationID,
     });
+
+    const fetchEstimatedTimeIntervalId = window.setInterval(() => {
+      fetchEstimatedTimeOfArrivalByStationData({
+        city: selectedCity,
+        stationID,
+      });
+    }, RE_FETCH_API_INTERVAL_IN_SECONDS * 1000);
+
+    return () => {
+      window.clearInterval(fetchEstimatedTimeIntervalId);
+    };
   }, [
     selectedCity,
     stationID,
@@ -105,30 +119,32 @@ const BusStop: FC = () => {
     fetchEstimatedTimeOfArrivalByStationData,
   ]);
 
-  if (
-    !isFetchBusStationLoading &&
-    !isFetchBusRouteByStationLoading &&
-    !isFetchEstimatedTimeOfArrivalByStationLoading &&
-    busStationData &&
-    busStationData[0] &&
+  const selectedBusStationInfo = busStationData?.[0];
+
+  const busStationWithRoutesInfo =
+    selectedBusStationInfo &&
     busRouteByStationData &&
     estimatedTimeOfArrivalByStationData
-  ) {
-    const busStationWithRoutesInfo = getBusStationWithRoutesInfo(
-      busStationData[0],
-      busRouteByStationData,
-      estimatedTimeOfArrivalByStationData
-    );
+      ? getBusStationWithRoutesInfo(
+          busStationData[0],
+          busRouteByStationData,
+          estimatedTimeOfArrivalByStationData
+        )
+      : undefined;
 
-    return (
-      <>
-        <BusStopMap busStationInfo={busStationData[0]} />
-        <BusStopDetail busStationWithRoutesInfo={busStationWithRoutesInfo} />
-      </>
-    );
-  }
-
-  return null;
+  return (
+    <>
+      {selectedBusStationInfo && (
+        <div>
+          <BusStopMap busStationInfo={selectedBusStationInfo} />
+          <BusStopDetail
+            busStationInfo={selectedBusStationInfo}
+            busStationWithRoutesInfo={busStationWithRoutesInfo}
+          />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default BusStop;

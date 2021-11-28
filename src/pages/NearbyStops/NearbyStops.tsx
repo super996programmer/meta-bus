@@ -5,7 +5,7 @@ import busStopIcon from '@icon/busStop.svg';
 import Navbar from '@src/components/Navbar';
 import BusRoutesOfStationInfo from '@src/components/BusRoutesOfStationInfo';
 import useCurrentLocation from '@src/hooks/useCurrentLocation.hook';
-import getDistance from './utils/getDistance';
+import getDistance from '@src/utils/getDistance';
 import { NearbyStopInfoContext } from './context/nearByStopInfo.context';
 
 const Sheet = styled(ReactModalSheet)`
