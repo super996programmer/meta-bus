@@ -4,6 +4,8 @@ export const TDX_API_VERSION = 'v2';
 
 export const TDX_BUS_API = `${TDX_API_HOST}/${TDX_API_VERSION}/Bus`;
 
+export const RE_FETCH_API_INTERVAL_IN_SECONDS = 20;
+
 // 車輛去返程
 export const enum BusRouteDirectionEnum {
   Departure, // 去程

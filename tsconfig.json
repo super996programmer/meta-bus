@@ -11,7 +11,8 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@style/*": ["./src/style/*"],
-      "@img/*": ["./content/img/*"]
+      "@img/*": ["./content/img/*"],
+      "@icon/*": ["./content/icon/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

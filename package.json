@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "start": "webpack server -c webpack.dev.config.js --open --history-api-fallback",
+    "start": "webpack server -c webpack.dev.config.js --open --history-api-fallback --https",
     "build:dev": "webpack -c webpack.dev.config.js",
     "build:prod": "webpack -c webpack.prod.config.js",
     "lint:ts:check": "eslint . -c .eslintrc.json --ext .js,.ts,.tsx",

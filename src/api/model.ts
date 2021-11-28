@@ -4,9 +4,15 @@ import {
   EstimateBusStopStatusEnum,
 } from './constants';
 
-export type CityType = 'Taipei' | 'NewTaipei';
+export type CityType = 'Taipei' | 'NewTaipei' | 'Kaohsiung';
 
-interface NameType {
+export interface SpatialFilter {
+  lat: number;
+  lng: number;
+  distanceInMeter: number;
+}
+
+export interface NameType {
   Zh_tw: string; // 中文繁體名稱
   En: string; // 英文名稱
 }
@@ -68,7 +74,7 @@ export interface BusStopOfRoute {
   Direction?: BusRouteDirectionEnum; // 去返程 : [0:'去程',1:'返程',2:'迴圈',255:'未知']
   City?: string; // 站牌權管所屬縣市(相當於市區公車API的City參數)[若為公路/國道客運路線則為空值]
   CityCode?: string; // 站牌權管所屬縣市之代碼(國際ISO 3166-2 三碼城市代碼)[若為公路/國道客運路線則為空值]
-  Stops: StopOfRoute[]; // 所有經過站牌
+  Stops: RouteStop[]; // 所有經過站牌
   UpdateTime: Date; // 資料更新日期時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)
   VersionID: number; // 資料版本編號
 }
@@ -78,12 +84,12 @@ export interface BusDisplayStopOfRoute {
   RouteID: string; // 地區既用中之路線代碼(為原資料內碼)
   RouteName: NameType; // 路線名稱
   Direction?: BusRouteDirectionEnum; // 去返程 : [0:'去程',1:'返程',2:'迴圈',255:'未知']
-  Stops: StopOfRoute[]; // 所有經過站牌
+  Stops: RouteStop[]; // 所有經過站牌
   UpdateTime: Date; // 資料更新日期時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)
   VersionID: number; // 資料版本編號
 }
 
-export interface StopOfRoute {
+export interface RouteStop {
   StopUID: string; // 站牌唯一識別代碼，規則為 {業管機關簡碼} + {StopID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢
   StopID: string; // 地區既用中之站牌代碼(為原資料內碼)
   StopName: NameType; // 站牌名稱
@@ -117,6 +123,29 @@ export interface BusStop {
   LocationCityCode?: string; // 站牌位置縣市之代碼(國際ISO 3166-2 三碼城市代碼)[若為公路/國道客運路線則為空值]
   UpdateTime: Date; // 資料更新日期時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)
   VersionID: number; // 資料版本編號
+}
+
+export interface BusStation {
+  StationUID: string; // 站位唯一識別代碼，規則為 {業管機關簡碼} + {StationID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢
+  StationID: string; // 站位代碼
+  StationName: NameType; // 站位名稱
+  StationPosition: PointType; // 站位位置
+  StationAddress?: string; // 站位地址
+  StationGroupID: string; // 站牌所屬的組站位ID
+  Stops?: StationStop[]; // 站牌與所行經此站牌之路線列表(資料會對路線展開，因此可能會有重複的站牌資料)
+  LocationCityCode?: string; // 站牌位置縣市之代碼(國際ISO 3166-2 三碼城市代碼)[若為公路/國道客運路線則為空值]
+  Bearing?: string; // 方位角，E:東行;W:西行;S:南行;N:北行;SE:東南行;NE:東北行;SW:西南行;NW:西北行
+  UpdateTime: Date; // 資料更新日期時間(ISO8601格式:yyyy-MM-ddTHH:mm:sszzz)
+  VersionID: number; // 資料版本編號
+}
+
+export interface StationStop {
+  StopUID: string; // 站牌唯一識別代碼，規則為 {業管機關簡碼} + {StopID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢
+  StopID: string; // 地區既用中之站牌代碼(為原資料內碼)
+  StopName: NameType; // 站牌名稱
+  RouteUID: string; // 路線唯一識別代碼，規則為 {業管機關簡碼} + {RouteID}，其中 {業管機關簡碼} 可於Authority API中的AuthorityCode欄位查詢
+  RouteID: string; // 地區既用中之路線代碼(為原資料內碼)
+  RouteName: NameType; // 路線名稱
 }
 
 export interface BusN1EstimateTime {
