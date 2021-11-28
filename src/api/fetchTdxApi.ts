@@ -17,12 +17,12 @@ const getAuthorizationHeader = () => {
   };
 };
 
-const tdxApiConfig: RequestInit = {
-  method: 'GET',
-  headers: getAuthorizationHeader(),
-};
-
 const fetchTdxApi = async <T>(url: string) => {
+  const tdxApiConfig: RequestInit = {
+    method: 'GET',
+    headers: getAuthorizationHeader(),
+  };
+
   try {
     const response = await fetch(url, tdxApiConfig);
     if (response.ok) {

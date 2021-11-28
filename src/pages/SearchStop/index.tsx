@@ -28,7 +28,6 @@ const SearchContainer = styled.div`
 `;
 
 const SearchStop: FC = () => {
-  console.log('run');
   const { selectedCity } = useContext(CitySelectContext);
   const [searchValue, setSearchValue] = useState<string>('');
   const { fetchData, data } = useFetchTdxApi(fetchBusStation);
