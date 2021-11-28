@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "target": "es2015",
     "jsx": "preserve",
     "noEmit": true,
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "isolatedModules": true,
     "strict": true,
     "baseUrl": ".",
