@@ -5,7 +5,7 @@ import SHA from 'jssha';
 const AppId = '7a541e50d99542889ad49ecbf1a8a261';
 const AppKey = 'ztwc_Fb2wxJm8vNo4mYsQ-PmylM';
 
-const getAuthorizationHeader = () => {
+export const getAuthorizationHeader = () => {
   const dateTimeString = new Date().toUTCString();
   const SHAObject = new SHA('SHA-1', 'TEXT');
   SHAObject.setHMACKey(AppKey, 'TEXT');
