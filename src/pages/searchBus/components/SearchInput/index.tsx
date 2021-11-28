@@ -8,6 +8,7 @@ import { SearchBusContext, ISearchResult } from '@src/pages/searchBus/context';
 import Icon from '@src/components/Icon';
 import searchIconPath from '@img/searchIcon.svg';
 import closeIconPath from '@img/grayCircleClose.svg';
+import { getAuthorizationHeader } from '@src/api/fetchTdxApi';
 
 const Container = styled.div`
   display: flex;
@@ -79,7 +80,11 @@ const SearchInput: FC<ISearchInput> = (props) => {
     // TODO: 待抽 Hook
     if (e.target.value) {
       fetch(
-        `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${e.target.value}?$top=30&$format=JSON`
+        `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${e.target.value}?$top=30&$format=JSON`,
+        {
+          method: 'GET',
+          headers: getAuthorizationHeader(),
+        }
       )
         .then((res) => res.json())
         .then((res) => {
@@ -105,7 +110,11 @@ const SearchInput: FC<ISearchInput> = (props) => {
 
     // TODO: 待抽 Hook
     fetch(
-      `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${searchValue}?$top=30&$format=JSON`
+      `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${searchValue}?$top=30&$format=JSON`,
+      {
+        method: 'GET',
+        headers: getAuthorizationHeader(),
+      }
     )
       .then((res) => res.json())
       .then((res) => {
