@@ -66,7 +66,7 @@ const StopsMap: FC = () => {
     }
   }, [selectedDistanceInMeter]);
 
-  const [mapCurrenZoom, setMapCurrentZoom] = useState<number>(15);
+  const [mapCurrentZoom, setMapCurrentZoom] = useState<number>(15);
 
   const handleClickBusStationMarker = (busStationUID: string) => {
     setSelectedBusStationUID(busStationUID);
@@ -91,11 +91,11 @@ const StopsMap: FC = () => {
         id="BusStopsMap"
         mapContainerStyle={{
           width: '100vw',
-          height: `${0.8 * windowHeight}px`,
+          height: `${windowHeight}px`,
         }}
         zoom={mapInitialZoom}
         onZoomChanged={() => {
-          setMapCurrentZoom(mapRef.current?.getZoom() || mapCurrenZoom);
+          setMapCurrentZoom(mapRef.current?.getZoom() || mapCurrentZoom);
         }}
         center={currentLocation}
         options={{
@@ -129,7 +129,7 @@ const StopsMap: FC = () => {
                 }}
                 cursor="pointer"
                 label={
-                  mapCurrenZoom > 17 ? { text: StationNameDesc } : undefined
+                  mapCurrentZoom > 17 ? { text: StationNameDesc } : undefined
                 }
                 onClick={() => {
                   handleClickBusStationMarker(StationUID);

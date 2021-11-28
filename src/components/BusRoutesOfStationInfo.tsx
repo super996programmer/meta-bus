@@ -4,7 +4,7 @@ import {
   BusRouteDirectionEnum,
   EstimateBusStopStatusEnum,
 } from '@src/api/constants';
-import { BusRouteOfStop } from '../pages/NearbyStops/model';
+import { BusRouteOfStop } from '@src/model';
 
 const BusRouteInfo = styled.div`
   display: flex;
@@ -38,28 +38,32 @@ const RemainingTimeText = styled.span`
   color: #04d219;
 `;
 
+const convertEstimatedTime = (estimatedTime: number) => {
+  if (estimatedTime < 60) {
+    return '即將進站';
+  }
+  if (estimatedTime > 3600) {
+    const nextBusTime = new Date(
+      new Date().getTime() + estimatedTime * 1000
+    ).toLocaleTimeString([], {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    return nextBusTime;
+  }
+  return `${Math.round(estimatedTime / 60)} 分`;
+};
+
 const getEstimateBusStopStatus = (
   busStopStatus?: EstimateBusStopStatusEnum,
-  estimateTime?: number
+  estimatedTime?: number
 ) => {
+  if (estimatedTime) {
+    return convertEstimatedTime(estimatedTime);
+  }
   switch (busStopStatus) {
     case EstimateBusStopStatusEnum.Normal:
-      if (estimateTime) {
-        if (estimateTime < 60) {
-          return '即將進站';
-        }
-        if (estimateTime > 3600) {
-          const nextBusTime = new Date(
-            new Date().getTime() + estimateTime * 1000
-          ).toLocaleTimeString([], {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-          });
-          return nextBusTime;
-        }
-        return `${Math.round(estimateTime / 60)} 分`;
-      }
       return '時間預估中';
     case EstimateBusStopStatusEnum.BusAtDepot:
       return '尚未發車';

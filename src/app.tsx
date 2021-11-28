@@ -8,6 +8,7 @@ import { CitySelectProvider } from './context/citySelect.context';
 import { GoogleMapProvider } from './context/googleMap.context';
 import RouteDetail from './pages/routeDetail';
 import Home from './pages/home';
+import BusStop from './pages/BusStop';
 
 const Container = styled.div`
   font-size: 14px;
@@ -26,6 +27,7 @@ const App: FC = () => (
               path="RouteDetail/:routeName/:routeUID"
               element={<RouteDetail />}
             />
+			<Route path="BusStop/:stationID" element={<BusStop />} />
           </Routes>
         </GoogleMapProvider>
       </CitySelectProvider>
