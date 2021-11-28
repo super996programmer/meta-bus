@@ -6,6 +6,8 @@ import NearbyStops from './pages/NearbyStops';
 import SearchBus from './pages/searchBus';
 import { CitySelectProvider } from './context/citySelect.context';
 import { GoogleMapProvider } from './context/googleMap.context';
+import RouteDetail from './pages/routeDetail';
+import Home from './pages/home';
 
 const Container = styled.div`
   font-size: 14px;
@@ -17,8 +19,13 @@ const App: FC = () => (
       <CitySelectProvider>
         <GoogleMapProvider>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="NearbyStops" element={<NearbyStops />} />
             <Route path="SearchBus" element={<SearchBus />} />
+            <Route
+              path="routeDetail/:routeName/:routeUID/:subRouteUID"
+              element={<RouteDetail />}
+            />
           </Routes>
         </GoogleMapProvider>
       </CitySelectProvider>
