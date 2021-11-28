@@ -11,6 +11,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'bundle'),
     filename: '[name].[contenthash].js',
+    publicPath: '/',
     clean: true,
   },
   resolve: {
@@ -64,6 +65,11 @@ module.exports = {
         generator: {
           filename: 'img/[name].[contenthash][ext]',
         },
+      },
+      {
+        test: /\.svg$/,
+        include: [path.resolve(__dirname, 'content', 'icon')],
+        type: 'asset/inline',
       },
     ],
   },

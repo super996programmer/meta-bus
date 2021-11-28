@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
+    "target": "es2015",
     "jsx": "preserve",
     "noEmit": true,
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "isolatedModules": true,
     "strict": true,
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"],
       "@style/*": ["./src/style/*"],
-      "@img/*": ["./content/img/*"]
+      "@img/*": ["./content/img/*"],
+      "@icon/*": ["./content/icon/*"]
     },
     "esModuleInterop": true,
     "skipLibCheck": true,

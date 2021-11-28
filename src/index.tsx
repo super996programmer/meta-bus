@@ -1,4 +1,13 @@
 import ReactDOM from 'react-dom';
-import Main from '@src/main';
+import { BrowserRouter } from 'react-router-dom';
+import App from '@src/app';
+import '@style/reset.css';
+import '@style/global.css';
 
-ReactDOM.render(<Main />, document.getElementById('root'));
+const rootElement = document.getElementById('root');
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  rootElement
+);
