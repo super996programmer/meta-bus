@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 import { CitySelectContext } from '@src/context/citySelect.context';
 import { SearchBusContext, ISearchResult } from '@src/pages/searchBus/context';
+import { getAuthorizationHeader } from '@src/api/fetchTdxApi';
 import KeyButtonList, { IKeyButtonList } from './setting/keyButtonList';
 
 const Container = styled.div`
@@ -46,7 +47,11 @@ const BusKeyBoard: FC<IBusKeyBoard> = (props) => {
 
         // TODO: 待抽 Hook
         fetch(
-          `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${keySetting.value}?$top=30&$format=JSON`
+          `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${keySetting.value}?$top=30&$format=JSON`,
+          {
+            method: 'GET',
+            headers: getAuthorizationHeader(),
+          }
         )
           .then((res) => res.json())
           .then((res) => {
@@ -71,7 +76,11 @@ const BusKeyBoard: FC<IBusKeyBoard> = (props) => {
 
         // TODO: 待抽 Hook
         fetch(
-          `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${newValue}?$top=30&$format=JSON`
+          `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${selectedCity}/${newValue}?$top=30&$format=JSON`,
+          {
+            method: 'GET',
+            headers: getAuthorizationHeader(),
+          }
         )
           .then((res) => res.json())
           .then((res) => {
