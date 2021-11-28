@@ -16,6 +16,7 @@ import {
   InfoWindow,
   Polyline,
 } from '@react-google-maps/api';
+import ReactModalSheet from 'react-modal-sheet';
 import currentIcon from '@img/currentIcon.svg';
 import busStopIcon from '@img/busStopIcon.svg';
 import { CitySelectContext } from '@src/context/citySelect.context';
@@ -27,9 +28,14 @@ import { fetchRealTimeNearStop } from '../../api/fetchRealTimeNearStop';
 import { fetchBusRoute } from '../../api/fetchBusRoute';
 import { fetchDisplayStopOfRoute } from '../../api/fetchDisplayStopOfRoute';
 import useFetchTdxApi from '../../api/useFetchTdxApi.hook';
-import ModalSheet from '../../components/ModalSheet';
 import { formatBusStopWithSort, formatEstimateTime } from './helper';
 import { ModalHeader } from './Modal';
+
+const Sheet = styled(ReactModalSheet)`
+  .react-modal-sheet-container {
+    border-radius: 30px 30px 0 0 !important;
+  }
+`;
 
 const Container = styled.div`
   padding: 30px 30px 30px 10px;
@@ -356,42 +362,53 @@ const RouteDetail: FC = () => {
           </GoogleMap>
         )}
       </div>
-      <ModalSheet isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <ModalHeader routeName={routeName || ''} />
-        <TabsContainer>
-          <Tab isActive={isGoDirection} onClick={() => handleClickTab(0)}>
-            往{currentBusRouteData?.DestinationStopNameZh}
-          </Tab>
-          <Tab isActive={!isGoDirection} onClick={() => handleClickTab(1)}>
-            往{currentBusRouteData?.DepartureStopNameZh}
-          </Tab>
-        </TabsContainer>
-        <Container>
-          <BusRouteContainer>
-            {routeDetailData &&
-              [...routeDetailData.values()].map((stop, i) => {
-                // @ts-ignore
-                const { plateNumb, displayEstimatedTime } = stop;
-                const routeDetailDataSize = routeDetailData.size;
-                return (
-                  <StopContainer
-                    key={stop?.StopUID}
-                    isBusArriving={!!plateNumb}
-                    isLast={i === routeDetailDataSize - 1}
-                  >
-                    <StopContainerLeft isBusArriving={!!plateNumb}>
-                      <ArrivalTimeContainer isBusArriving={!!plateNumb}>
-                        {displayEstimatedTime}
-                      </ArrivalTimeContainer>
-                      <StopName>{stop?.StopName.Zh_tw}</StopName>
-                    </StopContainerLeft>
-                    {plateNumb && <BusToolTip>{plateNumb}</BusToolTip>}
-                  </StopContainer>
-                );
-              })}
-          </BusRouteContainer>
-        </Container>
-      </ModalSheet>
+      <Sheet
+        isOpen={isModalOpen}
+        onClose={() => undefined}
+        snapPoints={[0.95, 0.5, 0.2]}
+        initialSnap={1}
+      >
+        <Sheet.Container>
+          <Sheet.Header>
+            <ModalHeader routeName={routeName || ''} />
+          </Sheet.Header>
+          <Sheet.Content disableDrag>
+            <TabsContainer>
+              <Tab isActive={isGoDirection} onClick={() => handleClickTab(0)}>
+                往{currentBusRouteData?.DestinationStopNameZh}
+              </Tab>
+              <Tab isActive={!isGoDirection} onClick={() => handleClickTab(1)}>
+                往{currentBusRouteData?.DepartureStopNameZh}
+              </Tab>
+            </TabsContainer>
+            <Container>
+              <BusRouteContainer>
+                {routeDetailData &&
+                  [...routeDetailData.values()].map((stop, i) => {
+                    // @ts-ignore
+                    const { plateNumb, displayEstimatedTime } = stop;
+                    const routeDetailDataSize = routeDetailData.size;
+                    return (
+                      <StopContainer
+                        key={stop?.StopUID}
+                        isBusArriving={!!plateNumb}
+                        isLast={i === routeDetailDataSize - 1}
+                      >
+                        <StopContainerLeft isBusArriving={!!plateNumb}>
+                          <ArrivalTimeContainer isBusArriving={!!plateNumb}>
+                            {displayEstimatedTime}
+                          </ArrivalTimeContainer>
+                          <StopName>{stop?.StopName.Zh_tw}</StopName>
+                        </StopContainerLeft>
+                        {plateNumb && <BusToolTip>{plateNumb}</BusToolTip>}
+                      </StopContainer>
+                    );
+                  })}
+              </BusRouteContainer>
+            </Container>
+          </Sheet.Content>
+        </Sheet.Container>
+      </Sheet>
     </>
   );
 };
