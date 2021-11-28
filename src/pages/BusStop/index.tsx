@@ -1,6 +1,5 @@
 import { FC, useContext, useEffect } from 'react';
-import BusStopDetail from '@src/components/BusStopDetail';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useFetchTdxApi from '@src/api/useFetchTdxApi.hook';
 import { fetchBusStation } from '@src/api/fetchBusStation';
 import { CitySelectContext } from '@src/context/citySelect.context';
@@ -9,6 +8,7 @@ import { fetchEstimatedTimeOfArrivalByStation } from '@src/api/fetchEstimatedTim
 import { BusN1EstimateTime, BusRoute, BusStation } from '@src/api/model';
 import { BusRouteOfStop } from '@src/model';
 import BusStopMap from './BusStopMap';
+import BusStopDetail from './BusStopDetail';
 
 const getBusStationWithRoutesInfo = (
   busStation: BusStation,
@@ -61,7 +61,6 @@ const getBusStationWithRoutesInfo = (
 };
 
 const BusStop: FC = () => {
-  const navigate = useNavigate();
   const { stationID } = useParams();
 
   const { selectedCity } = useContext(CitySelectContext);
@@ -120,15 +119,11 @@ const BusStop: FC = () => {
       busRouteByStationData,
       estimatedTimeOfArrivalByStationData
     );
+
     return (
       <>
         <BusStopMap busStationInfo={busStationData[0]} />
-        <BusStopDetail
-          busStationWithRoutesInfo={busStationWithRoutesInfo}
-          goBackAction={() => {
-            navigate(-1);
-          }}
-        />
+        <BusStopDetail busStationWithRoutesInfo={busStationWithRoutesInfo} />
       </>
     );
   }

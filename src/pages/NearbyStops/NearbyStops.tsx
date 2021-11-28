@@ -1,12 +1,18 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Sheet from 'react-modal-sheet';
+import ReactModalSheet from 'react-modal-sheet';
 import busStopIcon from '@icon/busStop.svg';
 import Navbar from '@src/components/Navbar';
 import BusRoutesOfStationInfo from '@src/components/BusRoutesOfStationInfo';
 import useCurrentLocation from '@src/hooks/useCurrentLocation.hook';
 import getDistance from './utils/getDistance';
 import { NearbyStopInfoContext } from './context/nearByStopInfo.context';
+
+const Sheet = styled(ReactModalSheet)`
+  .react-modal-sheet-container {
+    border-radius: 30px 30px 0 0 !important;
+  }
+`;
 
 const Content = styled.div`
   padding-bottom: 45vh;
@@ -17,6 +23,7 @@ const Content = styled.div`
 const Header = styled.header`
   position: sticky;
   top: 0;
+  border-radius: 30px 30px 0 0;
   background-color: #f3f3f3;
 `;
 
