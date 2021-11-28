@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { BusStationWithRoutesInfo } from '@src/model';
 import Navbar from '@src/components/Navbar';
 import BusStopInfo from '@src/components/BusStopInfo';
+import { BusStation } from '@src/api/model';
 
 const Sheet = styled(ReactModalSheet)`
   .react-modal-sheet-container {
@@ -13,10 +14,14 @@ const Sheet = styled(ReactModalSheet)`
 `;
 
 interface Props {
-  busStationWithRoutesInfo: BusStationWithRoutesInfo;
+  busStationInfo: BusStation;
+  busStationWithRoutesInfo?: BusStationWithRoutesInfo;
 }
 
-const BusStopDetail: FC<Props> = ({ busStationWithRoutesInfo }) => {
+const BusStopDetail: FC<Props> = ({
+  busStationInfo,
+  busStationWithRoutesInfo,
+}) => {
   const navigate = useNavigate();
   const [isModalSheetOpen, setIsModalSheetOpen] = useState<boolean>(false);
 
@@ -24,7 +29,8 @@ const BusStopDetail: FC<Props> = ({ busStationWithRoutesInfo }) => {
     setIsModalSheetOpen(true);
   }, []);
 
-  const { StationName } = busStationWithRoutesInfo;
+  const { StationName } = busStationInfo;
+
   return (
     <Sheet
       isOpen={isModalSheetOpen}
@@ -44,7 +50,9 @@ const BusStopDetail: FC<Props> = ({ busStationWithRoutesInfo }) => {
           />
         </Sheet.Header>
         <Sheet.Content disableDrag>
-          <BusStopInfo busStationWithRoutesInfo={busStationWithRoutesInfo} />
+          {busStationWithRoutesInfo && (
+            <BusStopInfo busStationWithRoutesInfo={busStationWithRoutesInfo} />
+          )}
         </Sheet.Content>
       </Sheet.Container>
     </Sheet>

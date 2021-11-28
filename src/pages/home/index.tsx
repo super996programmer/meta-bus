@@ -7,6 +7,15 @@ import { Link } from 'react-router-dom';
 import { CitySelectContext } from '@src/context/citySelect.context';
 import MyCurrentLocationMap from '@src/components/MyCurrentLocationMap';
 import ModalSheet from '@src/components/ModalSheet';
+import metaBusLogo from '@img/metaBusLogo.svg';
+import mainBusVision from '@img/mainBusVision.svg';
+
+const Logo = styled.img`
+  position: fixed;
+  z-index: 99;
+  top: 15px;
+  left: 15px;
+`;
 
 const ActionImg = styled.img`
   height: 50px;
@@ -42,6 +51,15 @@ const SelectButton = styled.div`
   margin-bottom: 20px;
 `;
 
+const MainVision = styled.div`
+  display: flex;
+  margin: 30px 0;
+  justify-content: center;
+  & img {
+    width: 50vw;
+  }
+`;
+
 const Home: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { selectedCityDesc, openCityOptionsDialog } =
@@ -53,6 +71,7 @@ const Home: FC = () => {
 
   return (
     <>
+      <Logo src={metaBusLogo} alt="MetaBus" />
       <MyCurrentLocationMap />
       <ModalSheet isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <MainContainer>
@@ -99,6 +118,9 @@ const Home: FC = () => {
               </Action>
             </Link>
           </ActionContainer>
+          <MainVision>
+            <img src={mainBusVision} alt="MetaBus" />
+          </MainVision>
         </MainContainer>
       </ModalSheet>
     </>
