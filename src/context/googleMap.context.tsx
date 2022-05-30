@@ -24,7 +24,7 @@ export const GoogleMapContext = createContext<Context>({
 
 export const GoogleMapProvider: FC = ({ children }) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyBIKo1pvwjg3vb9MBMvvBb8LoJ4tcBB160',
+    googleMapsApiKey: '',
   });
 
   const contextValue: Context = useMemo(
