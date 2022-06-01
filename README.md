@@ -1,4 +1,23 @@
+> MetaBus 專案是由設計師 Amanda、前端工程師 June、Martin 與峰林等人協作，以「我想想看」團體組身分參加 [2021 第三屆 The F2E 前端 & UI 修煉精神時光屋](https://2021.thef2e.com/)競賽，挑戰第三關卡題目「全台公車動態時刻查詢應用服務」，利用下班時間，花費約莫兩週時間完成，並很榮幸獲得**佳作**。
+>
+> ![佳作獎狀](https://imgur.com/2rLjVZn.png)
+>
+> 本專案不會再繼續維護，如果對專案的設計與程式碼內容有興趣，歡迎與我們聯絡：
+>
+> - UI / UX:
+>   - Amanda：brenda77811@gmail.com
+> - F2E
+>   - June（[chun29](https://github.com/chun29)）：june29629@gmail.com
+>   - Martin（[ChengYiLin](https://github.com/ChengYiLin)）：cheng.yi.lin.217@gmail.com
+>   - 張峰林（[fenglinchang996](https://github.com/fenglinchang996)）：paulespling@gmail.com
+
 # meta-bus
+
+![MetaBus](https://imgur.com/mXM7Dyp.png)
+
+![MetaBus](https://imgur.com/E5AbM2B.png)
+
+![MetaBus](https://imgur.com/xfp9voi.png)
 
 ## 作品說明
 
@@ -8,13 +27,9 @@
 
 [Figma](https://www.figma.com/file/cE4CqH3weKsiP3dM0Brc3N/%E5%85%AC%E8%BB%8A%E5%9C%B0%E5%9C%96%E8%B3%87%E8%A8%8A%E6%95%B4%E5%90%88%E7%B6%B2?node-id=0%3A1)
 
-#### Demo
-
-[MetaBus](https://meta-bus.web.app)
+## 系統說明
 
 > 由於時間限制，開發以行動裝置體驗較佳為優先，建議以手機開啟，或桌機瀏覽器開啟開發者模式下的行動裝置檢視模式會有較佳使用體驗。
-
-## 系統說明
 
 - 安裝相關套件
 
@@ -127,20 +142,12 @@
 - TDX API
 - Google Map API
 
-## 未來改善項目
-
-- RWD
-- TDX 公車資料整合
-- 加入全域狀態管理，如 Redux
-- 加入單元測試
-- PWA
-
-## 設計
+## UI / UX
 
 - Amanda
 
 ## F2E
 
-- 峰林
 - June
 - Martin
+- 張峰林
